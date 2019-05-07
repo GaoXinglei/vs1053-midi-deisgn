@@ -117,7 +117,7 @@ void pino(){
   if(!digitalRead(inp4)) soundoutput(1,23);
   if(!digitalRead(inp5)) soundoutput(1,25);
   if(!digitalRead(inp6)) soundoutput(1,27);
-  digitalWrite(OUT3,HIGH);
+  digitalWrite(OUT4,HIGH);
   
   digitalWrite(OUT5,LOW);
   if(!digitalRead(inp0)) soundoutput(1,28);
@@ -218,6 +218,7 @@ void loop() {
     delay(1000);
     digitalWrite(OUT0,LOW);
     if(!digitalRead(inp0)){
+  
       delay(1000);
 
       if(!digitalRead(inp0)) {o=1;soundstarup(a,b,c);}
