@@ -1,6 +1,6 @@
 #include <SoftwareSerial.h>
 const int OUT0=13;
-const int OUT1=1;
+const int OUT1=6;
 const int OUT2=2;
 const int OUT3=3;
 const int OUT4=4;
@@ -11,7 +11,7 @@ const int inp2=A2;
 const int inp3=A3;
 const int inp4=A4;
 const int inp5=A5;
-const int inp6=6;
+const int inp6=0;
 const int led1=7;
 const int led2=8;
 const int led3=9;
@@ -83,7 +83,7 @@ void soundstarup(int a,int b,int c){
   }
 void soundoutput(int d,int n)
 {
-    //Serial.println("123");
+    Serial.println(n);
   if(!l){
     talkMIDI(0xB0, 0x07, Vol);// put your main code here, to run repeatedly:
   talkMIDI(0xB0, 0, 0x00);
@@ -100,37 +100,37 @@ void soundoutput(int d,int n)
 void pino(){
 
   digitalWrite(OUT3,LOW);
-  if(!digitalRead(inp0)) soundoutput(1,14);
-  if(!digitalRead(inp1)) soundoutput(1,16);
-  if(!digitalRead(inp2)) soundoutput(1,18);
-  if(!digitalRead(inp3)) soundoutput(1,20);
-  if(!digitalRead(inp4)) soundoutput(1,22);
+  if(analogRead(inp0)<900) soundoutput(1,14);
+  if(analogRead(inp1)<900) soundoutput(1,16);
+  if(analogRead(inp2)<900) soundoutput(1,18);
+  if(analogRead(inp3)<900) soundoutput(1,20);
+  if(analogRead(inp4)<900) soundoutput(1,22);
   if(!digitalRead(inp5)) soundoutput(1,24);
   if(!digitalRead(inp6)) soundoutput(1,26);
   digitalWrite(OUT3,HIGH);
   
   digitalWrite(OUT4,LOW);
-  if(!digitalRead(inp0)) soundoutput(1,15);
-  if(!digitalRead(inp1)) soundoutput(1,17);
-  if(!digitalRead(inp2)) soundoutput(1,19);
-  if(!digitalRead(inp3)) soundoutput(1,21);
-  if(!digitalRead(inp4)) soundoutput(1,23);
+  if(analogRead(inp0)<900) soundoutput(1,15);
+  if(analogRead(inp1)<900) soundoutput(1,17);
+  if(analogRead(inp2)<900) soundoutput(1,19);
+  if(analogRead(inp3)<900) soundoutput(1,21);
+  if(analogRead(inp4)<900) soundoutput(1,23);
   if(!digitalRead(inp5)) soundoutput(1,25);
   if(!digitalRead(inp6)) soundoutput(1,27);
   digitalWrite(OUT4,HIGH);
   
   digitalWrite(OUT5,LOW);
-  if(!digitalRead(inp0)) soundoutput(1,28);
-  if(!digitalRead(inp1)) soundoutput(1,30);
-  if(!digitalRead(inp2)) soundoutput(1,32);
-  if(!digitalRead(inp3)) soundoutput(1,33);
-  if(!digitalRead(inp4)) soundoutput(1,34);
+  if(analogRead(inp0)<900) soundoutput(1,28);
+  if(analogRead(inp1)<900) soundoutput(1,30);
+  if(analogRead(inp2)<900) soundoutput(1,32);
+  if(analogRead(inp3)<900) soundoutput(1,33);
+  if(analogRead(inp4)<900) soundoutput(1,34);
   if(!digitalRead(inp5)) soundoutput(1,35);
   if(!digitalRead(inp6)) soundoutput(1,36);
   digitalWrite(OUT5,HIGH);
   
   digitalWrite(OUT2,LOW);
-  if(!digitalRead(inp5)) soundoutput(1,29);
+  if(analogRead(inp5)<650) soundoutput(1,29);
   if(!digitalRead(inp6)) soundoutput(1,31);
   digitalWrite(OUT2,HIGH);
   }
@@ -138,10 +138,10 @@ void pino(){
 void guitar(){
   byte a=0,b=0,c=0,d=0,e=0;
   digitalWrite(OUT2,LOW);
-  if(!digitalRead(inp0)) a=0;
-  if(!digitalRead(inp1)) b=2;
-  if(!digitalRead(inp2)) c=4;
-  if(!digitalRead(inp3)) d=6;
+  if(analogRead(inp0)<900) a=0;
+  if(analogRead(inp1)<900) b=2;
+  if(analogRead(inp2)<900) c=4;
+  if(analogRead(inp3)<900) d=6;
   if(!digitalRead(inp4)) e=8;
   digitalWrite(OUT2,HIGH);
   digitalWrite(OUT1,HIGH);
@@ -155,10 +155,10 @@ void guitar(){
 void violin(){
   byte a=0,b=0,c=0,d=0,e=0;
   digitalWrite(OUT2,LOW);
-  if(!digitalRead(inp0)) a=0;
-  if(!digitalRead(inp1)) b=2;
-  if(!digitalRead(inp2)) c=4;
-  if(!digitalRead(inp3)) d=6;
+  if(analogRead(inp0)<900) a=0;
+  if(analogRead(inp1)<900) b=2;
+  if(analogRead(inp2)<900) c=4;
+  if(analogRead(inp3)<900) d=6;
   if(!digitalRead(inp4)) e=8;
   digitalWrite(OUT2,HIGH);
   digitalWrite(OUT1,HIGH);
@@ -197,9 +197,9 @@ void setup() {
   digitalWrite(OUT3,HIGH);
   digitalWrite(OUT4,HIGH);
   digitalWrite(OUT5,HIGH);
-  digitalWrite(led1,LOW);
-  digitalWrite(led2,LOW);
-  digitalWrite(led3,LOW);
+  digitalWrite(led1,HIGH);
+  digitalWrite(led2,HIGH);
+  digitalWrite(led3,HIGH);
   
  midiSerial.begin(31250);
 pinMode(VS_RESET, OUTPUT);
@@ -217,11 +217,11 @@ void loop() {
   if(!o){                  //关机状态
     delay(1000);
     digitalWrite(OUT0,LOW);
-    if(!digitalRead(inp0)){
+    if(analogRead(inp0)<600){
   
       delay(1000);
 
-      if(!digitalRead(inp0)) {o=1;soundstarup(a,b,c);}
+      if(analogRead(inp0)<600) {o=1;soundstarup(a,b,c);}
     }
     digitalWrite(OUT0,HIGH);
   }
@@ -231,19 +231,19 @@ void loop() {
     if(!digitalRead(inp2))   soundcut();//音量调节
     digitalWrite(OUT0,HIGH);
     digitalWrite(OUT1,HIGH);
-    if(!digitalRead(inp0))  {a=1;b=0;c=0;digitalWrite(led1,HIGH);digitalWrite(led2,LOW);digitalWrite(led3,LOW);} //打开a模式
-    else if(!digitalRead(inp1))   {a=0;b=1;c=0;digitalWrite(led2,HIGH);digitalWrite(led1,LOW);digitalWrite(led3,LOW);}  //打开b模式
-    else if(!digitalRead(inp2))   {a=0;b=0;c=1;digitalWrite(led3,HIGH);digitalWrite(led2,LOW);digitalWrite(led1,LOW);}  //打开c模式
+    if(!digitalRead(inp0))  {a=1;b=0;c=0;digitalWrite(led1,LOW);digitalWrite(led2,HIGH);digitalWrite(led3,HIGH);} //打开a模式
+    else if(!digitalRead(inp1))   {a=0;b=1;c=0;digitalWrite(led2,LOW);digitalWrite(led1,HIGH);digitalWrite(led3,HIGH);}  //打开b模式
+    else if(!digitalRead(inp2))   {a=0;b=0;c=1;digitalWrite(led3,LOW);digitalWrite(led2,HIGH);digitalWrite(led1,HIGH);}  //打开c模式
     digitalWrite(OUT1,LOW);     //状态读取完毕 
     if(a) pino();
     else if(b) violin();
     else if(c)guitar();
-    else {a=1;digitalWrite(led1,HIGH);digitalWrite(led2,LOW);digitalWrite(led3,LOW);pino;}
+    else {a=1;digitalWrite(led1,LOW);digitalWrite(led2,HIGH);digitalWrite(led3,HIGH);pino;}
     //Serial.println(a);
     //Serial.println(b);
     //Serial.println(c);
     digitalWrite(OUT0,LOW);
-    if(!digitalRead(inp0)) {delay(1000);if(!digitalRead(inp0)){o=0;soundshutup(a,b,c);}} //按关机键关机
+    if(analogRead(inp0)<600) {delay(1000);if(analogRead(inp0)<600){o=0;soundshutup(a,b,c);digitalWrite(led3,HIGH);digitalWrite(led2,HIGH);digitalWrite(led1,HIGH);}} //按关机键关机
     digitalWrite(OUT0,HIGH);
   }
   
