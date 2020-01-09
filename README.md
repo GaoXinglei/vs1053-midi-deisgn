@@ -18,6 +18,12 @@ Description: This is the vs1053 use midi model with arduino.
   inp5=A5;
   inp6=0;
 (```)
+(```)
+    function fun(){
+         echo "这是一句非常牛逼的代码";
+    }
+    fun();
+(```)
 >>六个输出 七个输入作为按钮的扫描 从而链接了36个按键以及一个开关和三个触摸开关
 
 (```)
