@@ -3,7 +3,7 @@ Description: This is the vs1053 use midi model with arduino.
 ---
 # VS1053 模块开启midi 模式并且链接arduino nano进行电子琴设计。
 # 引脚定义
-OUT0=13;
+OUT0=13;/r
 OUT1=6;
 OUT2=2;
 OUT3=3;
